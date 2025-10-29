@@ -17,63 +17,224 @@ const ERC20_ADDRESS = "0xa7d726B7F1085F943056C2fB91abE0204eC6d6DA" as Address;
 
 // ERC20 ABI
 const ERC20_ABI = [
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "spender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "Approval",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "TokensMinted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "Transfer",
+    type: "event",
+  },
   {
     inputs: [],
-    name: "owner",
-    outputs: [{ name: "", type: "address" }],
+    name: "MAX_MINT_PER_ADDRESS",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ name: "account", type: "address" }],
+    inputs: [],
+    name: "MAX_SUPPLY",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "allowance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "approve",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "balanceOf",
-    outputs: [{ name: "", type: "uint256" }],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "burn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "mintedByAddress",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "name",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "remainingMintAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "remainingSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "symbol",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "totalSupply",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "cap",
-    outputs: [{ name: "", type: "uint256" }],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { name: "to", type: "address" },
-      { name: "amount", type: "uint256" },
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
-    name: "mint",
-    outputs: [{ name: "", type: "bool" }],
+    name: "transfer",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [],
-    name: "name",
-    outputs: [{ name: "", type: "string" }],
-    stateMutability: "view",
+    inputs: [
+      { internalType: "address", name: "from", type: "address" },
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "transferFrom",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [],
-    name: "symbol",
-    outputs: [{ name: "", type: "string" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "decimals",
-    outputs: [{ name: "", type: "uint8" }],
-    stateMutability: "view",
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ] as const;
@@ -92,7 +253,7 @@ export default function Home() {
   const [balance, setBalance] = useState<string>("");
   const [tokenName, setTokenName] = useState<string>("");
   const [tokenSymbol, setTokenSymbol] = useState<string>("");
-  
+
   // 状态信息
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
@@ -126,7 +287,9 @@ export default function Home() {
       setAccount(acc.address);
       setMessage(`账户地址: ${acc.address}`);
     } catch (error) {
-      setMessage(`错误: ${error instanceof Error ? error.message : String(error)}`);
+      setMessage(
+        `错误: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   };
 
@@ -155,7 +318,9 @@ export default function Home() {
 
       setMessage(`转账成功! 交易哈希: ${hash}`);
     } catch (error) {
-      setMessage(`转账失败: ${error instanceof Error ? error.message : String(error)}`);
+      setMessage(
+        `转账失败: ${error instanceof Error ? error.message : String(error)}`
+      );
     } finally {
       setLoading(false);
     }
@@ -220,7 +385,9 @@ export default function Home() {
 
       setMessage("合约信息读取成功!");
     } catch (error) {
-      setMessage(`读取失败: ${error instanceof Error ? error.message : String(error)}`);
+      setMessage(
+        `读取失败: ${error instanceof Error ? error.message : String(error)}`
+      );
     } finally {
       setLoading(false);
     }
@@ -244,17 +411,17 @@ export default function Home() {
 
     try {
       // 先检查是否是owner
-      const owner = await publicClient.readContract({
-        address: ERC20_ADDRESS,
-        abi: ERC20_ABI,
-        functionName: "owner",
-      });
+      // const owner = await publicClient.readContract({
+      //   address: ERC20_ADDRESS,
+      //   abi: ERC20_ABI,
+      //   functionName: "owner",
+      // });
 
-      if ((owner as string).toLowerCase() !== account.toLowerCase()) {
-        setMessage(`❌ Mint 失败: 只有合约 owner 才能 mint 代币。\n当前账户: ${account}\n合约 Owner: ${owner}\n\n💡 提示: 请使用合约 owner 的私钥，或者联系合约管理员授予权限。`);
-        setLoading(false);
-        return;
-      }
+      // if ((owner as string).toLowerCase() !== account.toLowerCase()) {
+      //   setMessage(`❌ Mint 失败: 只有合约 owner 才能 mint 代币。\n当前账户: ${account}\n合约 Owner: ${owner}\n\n💡 提示: 请使用合约 owner 的私钥，或者联系合约管理员授予权限。`);
+      //   setLoading(false);
+      //   return;
+      // }
 
       // 检查是否会超过cap
       const currentSupply = await publicClient.readContract({
@@ -264,7 +431,15 @@ export default function Home() {
       });
 
       if (parseFloat(mintAmount) > (currentSupply as bigint)) {
-        setMessage(`❌ Mint 失败: 会超过发行上限！\n当前供应量: ${formatEther(currentSupply as bigint)}\n发行上限: ${formatEther(capValue as bigint)}\n尝试 mint: ${mintAmount}\n超出: ${formatEther(newSupply - (capValue as bigint))}`);
+        setMessage(
+          `❌ Mint 失败: 会超过发行上限！\n当前供应量: ${formatEther(
+            currentSupply as bigint
+          )}\n发行上限: ${formatEther(
+            capValue as bigint
+          )}\n尝试 mint: ${mintAmount}\n超出: ${formatEther(
+            newSupply - (capValue as bigint)
+          )}`
+        );
         setLoading(false);
         return;
       }
@@ -282,7 +457,7 @@ export default function Home() {
         address: ERC20_ADDRESS,
         abi: ERC20_ABI,
         functionName: "mint",
-        args: [account, parseEther(mintAmount)],
+        args: [parseEther(mintAmount)],
       });
 
       setMessage(`✅ Mint 成功! 交易哈希: ${hash}\n\n正在等待交易确认...`);
@@ -309,7 +484,9 @@ export default function Home() {
         errorMsg = String(error);
       }
 
-      setMessage(`❌ Mint 失败: ${errorMsg}\n\n💡 常见原因:\n1. 当前账户不是合约 owner\n2. 已达到发行上限（cap）\n3. Gas 费用不足\n4. 网络问题`);
+      setMessage(
+        `❌ Mint 失败: ${errorMsg}\n\n💡 常见原因:\n1. 当前账户不是合约 owner\n2. 已达到发行上限（cap）\n3. Gas 费用不足\n4. 网络问题`
+      );
     } finally {
       setLoading(false);
     }
@@ -336,7 +513,9 @@ export default function Home() {
       setBalance(balanceStr);
       setMessage(`当前余额: ${balanceStr} ${tokenSymbol || "Token"}`);
     } catch (error) {
-      setMessage(`查询失败: ${error instanceof Error ? error.message : String(error)}`);
+      setMessage(
+        `查询失败: ${error instanceof Error ? error.message : String(error)}`
+      );
     } finally {
       setLoading(false);
     }
@@ -418,7 +597,7 @@ export default function Home() {
           >
             {loading ? "读取中..." : "读取合约信息"}
           </button>
-          
+
           {(tokenName || contractOwner) && (
             <div className="space-y-2 text-sm">
               <p className="text-gray-700 dark:text-gray-300">
@@ -436,22 +615,26 @@ export default function Home() {
               )}
               {contractOwner && (
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">合约发行方:</span> {contractOwner}
+                  <span className="font-semibold">合约发行方:</span>{" "}
+                  {contractOwner}
                 </p>
               )}
               {totalSupply && (
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">总供应量:</span> {totalSupply} {tokenSymbol}
+                  <span className="font-semibold">总供应量:</span> {totalSupply}{" "}
+                  {tokenSymbol}
                 </p>
               )}
               {cap && (
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">发行上限:</span> {cap} {tokenSymbol}
+                  <span className="font-semibold">发行上限:</span> {cap}{" "}
+                  {tokenSymbol}
                 </p>
               )}
               {balance && account && (
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">当前账户余额:</span> {balance} {tokenSymbol}
+                  <span className="font-semibold">当前账户余额:</span> {balance}{" "}
+                  {tokenSymbol}
                 </p>
               )}
             </div>
@@ -463,27 +646,32 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
             3. Mint 代币
           </h2>
-          
+
           {/* 权限提示 */}
           {contractOwner && account && (
-            <div className={`mb-4 p-4 rounded-lg ${
-              contractOwner.toLowerCase() === account.toLowerCase() 
-                ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800' 
-                : 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800'
-            }`}>
+            <div
+              className={`mb-4 p-4 rounded-lg ${
+                contractOwner.toLowerCase() === account.toLowerCase()
+                  ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
+                  : "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800"
+              }`}
+            >
               <p className="text-sm font-semibold mb-1">
-                {contractOwner.toLowerCase() === account.toLowerCase() 
-                  ? '✅ 你是合约 Owner，可以 Mint' 
-                  : '⚠️ 权限不足'}
+                {contractOwner.toLowerCase() === account.toLowerCase()
+                  ? "✅ 你是合约 Owner，可以 Mint"
+                  : "⚠️ 权限不足"}
               </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                {contractOwner.toLowerCase() === account.toLowerCase() 
-                  ? '你的账户拥有 mint 权限' 
-                  : `只有 Owner (${contractOwner.slice(0, 10)}...) 才能 mint 代币`}
+                {contractOwner.toLowerCase() === account.toLowerCase()
+                  ? "你的账户拥有 mint 权限"
+                  : `只有 Owner (${contractOwner.slice(
+                      0,
+                      10
+                    )}...) 才能 mint 代币`}
               </p>
             </div>
           )}
-          
+
           <div className="space-y-4">
             <input
               type="text"
@@ -514,7 +702,7 @@ export default function Home() {
           >
             {loading ? "查询中..." : "查询余额"}
           </button>
-          
+
           {balance && (
             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
               <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 text-center">
@@ -529,27 +717,37 @@ export default function Home() {
 
         {/* 右上角通知 */}
         {showNotification && message && (
-          <div className={`fixed top-4 right-4 max-w-md w-full sm:w-96 rounded-lg shadow-2xl p-4 z-50 animate-slide-in-right border-l-4 ${
-            message.includes('❌') 
-              ? 'bg-red-50 dark:bg-red-900/90 border-red-500' 
-              : message.includes('✅') 
-              ? 'bg-green-50 dark:bg-green-900/90 border-green-500' 
-              : message.includes('⚠️')
-              ? 'bg-yellow-50 dark:bg-yellow-900/90 border-yellow-500'
-              : 'bg-blue-50 dark:bg-blue-900/90 border-blue-500'
-          }`}>
+          <div
+            className={`fixed top-4 right-4 max-w-md w-full sm:w-96 rounded-lg shadow-2xl p-4 z-50 animate-slide-in-right border-l-4 ${
+              message.includes("❌")
+                ? "bg-red-50 dark:bg-red-900/90 border-red-500"
+                : message.includes("✅")
+                ? "bg-green-50 dark:bg-green-900/90 border-green-500"
+                : message.includes("⚠️")
+                ? "bg-yellow-50 dark:bg-yellow-900/90 border-yellow-500"
+                : "bg-blue-50 dark:bg-blue-900/90 border-blue-500"
+            }`}
+          >
             <div className="flex items-start justify-between">
               <div className="flex-1 mr-2">
                 <div className="flex items-center mb-1">
                   <span className="text-2xl mr-2">
-                    {message.includes('❌') ? '❌' : 
-                     message.includes('✅') ? '✅' : 
-                     message.includes('⚠️') ? '⚠️' : 'ℹ️'}
+                    {message.includes("❌")
+                      ? "❌"
+                      : message.includes("✅")
+                      ? "✅"
+                      : message.includes("⚠️")
+                      ? "⚠️"
+                      : "ℹ️"}
                   </span>
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                    {message.includes('❌') ? '操作失败' : 
-                     message.includes('✅') ? '操作成功' : 
-                     message.includes('⚠️') ? '警告' : '提示'}
+                    {message.includes("❌")
+                      ? "操作失败"
+                      : message.includes("✅")
+                      ? "操作成功"
+                      : message.includes("⚠️")
+                      ? "警告"
+                      : "提示"}
                   </h3>
                 </div>
                 <p className="text-xs text-gray-700 dark:text-gray-300 break-all whitespace-pre-wrap ml-8">
@@ -563,8 +761,18 @@ export default function Home() {
                 }}
                 className="shrink-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
