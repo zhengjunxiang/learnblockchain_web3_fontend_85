@@ -8,6 +8,7 @@ export default function Home() {
       <div className="max-w-5xl mx-auto">
         <Link className="text-blue-500 hover:text-blue-600 " href="/viem">Viem</Link>
         <Link className="text-blue-500 hover:text-blue-600 ml-4" href="/wagmi">Wagmi</Link>
+        <Link className="text-blue-500 hover:text-blue-600 ml-4" href="/connectWallet">Connect Wallet</Link>
       </div>
     </div>
   );

@@ -28,12 +28,12 @@ export default function Wagmi() {
   const { address, isConnected, isConnecting, isDisconnected, connector } = useAccount()
 
   // 2. useBalance Hook - 获取ETH余额
-  const { data: ethBalance, refetch: refetchEthBalance } = useBalance({
+  const { data: ethBalance, isRefetching: isEthLoading, refetch: refetchEthBalance } = useBalance({
     address,
   })
 
   // 3. useReadContract Hook - 获取Token余额 (替代已弃用的 useBalance token 属性)
-  const { data: tokenBalance, refetch: refetchTokenBalance } = useReadContract({
+  const { data: tokenBalance, isRefetching: isTokenLoading, refetch: refetchTokenBalance } = useReadContract({
     address: CONTRACTS.ERC20TOKEN.address as Address,
     abi: CONTRACTS.ERC20TOKEN.abi,
     functionName: 'balanceOf',
@@ -265,7 +265,7 @@ export default function Wagmi() {
               }}
               style={{ ...smallButtonStyle, marginTop: '10px' }}
             >
-              刷新余额
+              {isEthLoading || isTokenLoading ? '刷新中...' : '刷新余额'}
             </button>
           </div>
 
